@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<!-- Converte point cloud to laserscan and launch camera topics--> 
+	<include file="$(find pointcloud_to_laserscan)/launch/sample_node.launch"/>   
+  
+	<!-- Restart rosbeam bridge -->
+	<node pkg="beam_2dnav" type="init_connection" name="init_connection" output="screen"/>
+		<param name="beam_ip" value="192.168.68.1"/>
+		<param name="user" value="st"/>
+
+	<!-- Tf from base_link -> camera_link-->
+	<node pkg="beam_tf" type="tf_broadcaster" name="beam_tf_publisher" output="screen"> </node>
+
+	<!-- Calculates Beam's Odometry and publishes Tf from /odom -> base_link -->
+	<node pkg="differential_drive" type="diff_tf.py" name="diff_tf" output="screen">
+		<rosparam param="base_width">0.261</rosparam>
+		<rosparam param="/ticks_meter">121</rosparam>
+		<rosparam param="rate">50</rosparam>
+	</node>
+
+</launch>

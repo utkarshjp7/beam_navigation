@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+	<node pkg="beam_2dnav" type="init_connection" name="init_connection" output="screen"/>
+        	<param name="beam_ip" value="192.168.68.1"/>
+        	<param name="user" value="st"/>
+
+	<node pkg="differential_drive" type="diff_tf.py" name="diff_tf" output="screen">
+		<rosparam param="base_width">0.261</rosparam>
+		<rosparam param="/ticks_meter">121</rosparam>
+		<rosparam param="rate">50</rosparam>
+	</node>
+</launch>
+
