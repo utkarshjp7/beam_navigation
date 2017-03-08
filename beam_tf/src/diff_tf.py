@@ -168,7 +168,7 @@ class DiffTf:
            # quaternion.w = cos( self.th / 2 )
 	    quaternion = Quaternion(val_th[0], val_th[1], val_th[2], val_th[3])
             self.odomBroadcaster.sendTransform(
-                (self.x + 0.1778, self.y, 0),
+                (self.x, self.y, 0),
                 (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
                 rospy.Time.now(),
                 self.base_frame_id,
