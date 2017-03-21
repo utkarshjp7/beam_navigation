@@ -5,7 +5,7 @@ int main(int argc, char** argv){
   ros::init(argc, argv, "beam_tf_publisher");
   ros::NodeHandle n;
 
-  ros::Rate r(10);
+  ros::Rate r(30);
 
   tf::TransformBroadcaster broadcaster;
 

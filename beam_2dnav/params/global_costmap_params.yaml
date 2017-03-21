@@ -5,4 +5,4 @@ global_costmap:
   publish_frequency: 0.5 #0.5
   static_map: true 
   transform_tolerance: 1.5 #1.5
-  inflation_radius: 0.2
+  inflation_radius: 0.4

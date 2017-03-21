@@ -17,7 +17,7 @@
 	<node pkg="beam_tf" type="diff_tf.py" name="diff_tf" output="screen">
 		<rosparam param="base_width">0.261</rosparam>
 		<rosparam param="/ticks_meter">121</rosparam>
-		<rosparam param="rate">50</rosparam>
+		<rosparam param="rate">30</rosparam>
 	</node>
 
 </launch>
