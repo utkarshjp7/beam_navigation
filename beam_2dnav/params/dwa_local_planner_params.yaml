@@ -1,35 +1,35 @@
 DWAPlannerROS:
 
 # Robot Configuration Parameters - Kobuki
-  max_vel_x: 0.3
-  min_vel_x: 0.015 
+  max_vel_x: 0.3 #0.5
+  min_vel_x: 0.02 #0.0
 
   max_vel_y: 0.0  # diff drive robot
   min_vel_y: 0.0  # diff drive robot
 
   max_trans_vel: 0.3 # choose slightly less than the base's capability
-  min_trans_vel: 0.015 # this is the min trans velocity when there is negligible rotational velocity
+  min_trans_vel: 0.1 # 0.02this is the min trans velocity when there is negligible rotational velocity
   trans_stopped_vel: 0.1
 
   # Warning!
   #   do not set min_trans_vel to 0.0 otherwise dwa will always think translational velocities
   #   are non-negligible and small in place rotational velocities will be created.
 
-  max_rot_vel: 0.4  #0.7 choose slightly less than the base's capability
-  min_rot_vel: 0.3  #0.4 this is the min angular velocity when there is negligible translational velocity
+  max_rot_vel: 0.3  #0.7 choose slightly less than the base's capability
+  min_rot_vel: 0.5  #0.4 this is the min angular velocity when there is negligible translational velocity
   rot_stopped_vel: 0.4
   
-  acc_lim_x: 2.5
-  acc_lim_theta: 3.2
+  acc_lim_x: 5.0 #2.5
+  acc_lim_theta: 5.0 #3.2
   acc_lim_y: 0.0      # diff drive robot
 
 # Goal Tolerance Parameters
   yaw_goal_tolerance: 3.14  # 0.05
-  xy_goal_tolerance: 0.50  # 0.10
+  xy_goal_tolerance: 0.10 # 0.50  # 0.10
   # latch_xy_goal_tolerance: false
 
 # Forward Simulation Parameters
- # sim_time: 4.0       # 1.7
+#  sim_time: 2.0       # 1.7
   vx_samples: 20       # 6
 #  vy_samples: 1       # diff drive robot, there is only one sample
   vtheta_samples: 40  # 20
@@ -47,7 +47,7 @@ DWAPlannerROS:
   oscillation_reset_dist: 0.05  # 0.05   - how far to travel before resetting oscillation flags
 
 # Debugging
-#  publish_traj_pc : true
+  publish_traj_pc : true
   publish_cost_grid_pc: true
 #  global_frame_id: odom
 
