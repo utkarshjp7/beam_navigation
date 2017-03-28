@@ -1,9 +1,14 @@
+#If you run the costmap without the plugins parameter,it will automatically create layers based on what costmaps used to do.
+plugins:
+  - {name: static_map, type: "costmap_2d::StaticLayer"}
+  - {name: obstacles,  type: "costmap_2d::ObstacleLayer"}
+  - {name: inflation,  type: "costmap_2d::InflationLayer"}
+
 obstacle_range: 4.0 #2.5
 raytrace_range: 4.5 #3.0
 #footprint: [[0.2159, 0.1778], [0.2159, -0.1778], [-0.2159, -0.1778], [-0.2159, 0.1778]]
-footprint: [[0.1016, 0.1587], [0.1016, -0.1587], [-0.3302, -0.1587], [-0.3302, 0.1587]]
-#robot_radius: 0.1778
- 
-observation_sources: point_cloud_sensor
+footprint: [[0.1016, 0.2087], [0.1016, -0.2087], [-0.3302, -0.2087], [-0.3302, 0.2087]]
 
-point_cloud_sensor: {sensor_frame: /camera_link, data_type: PointCloud2, topic: /camera/depth/points, marking: true, clearing: true}
+obstacles: 
+  observation_sources: point_cloud_sensor
+  point_cloud_sensor: {sensor_frame: /camera_link, data_type: PointCloud2, topic: /camera/depth/points, marking: true, clearing: true}

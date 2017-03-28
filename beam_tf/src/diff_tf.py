@@ -5,7 +5,7 @@
    creates tf and odometry messages.
    some code borrowed from the arbotix diff_controller script
    A good reference: http://rossum.sourceforge.net/papers/DiffSteer/
-   
+
     Copyright (C) 2012 Jon Stephan. 
      
     This program is free software: you can redistribute it and/or modify
@@ -54,13 +54,13 @@ diff_controller.py - controller for a differential drive
 import rospy
 import roslib
 #roslib.load_manifest('differential_drive')
-from math import sin, cos, pi
+from math import sin, cos, pi , radians
 
 from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import Twist
 from nav_msgs.msg import Odometry
 from tf.broadcaster import TransformBroadcaster
-from std_msgs.msg import Int16
+from std_msgs.msg import *
 import tf
 
 #############################################################################
@@ -89,7 +89,6 @@ class DiffTf:
  
         self.t_delta = rospy.Duration(1.0/self.rate)
         self.t_next = rospy.Time.now() + self.t_delta
-        
         # internal data
         self.enc_left = None        # wheel encoder readings
         self.enc_right = None
@@ -105,10 +104,15 @@ class DiffTf:
         self.dx = 0                 # speeds in x/rotation
         self.dr = 0
         self.then = rospy.Time.now()
-        
+        self.init_yaw = 0;
+        self.yaw = 0
+        self.last_yaw = 0
+        self.yaw_diff = 0
+        self.first = True
         # subscriptions
-        rospy.Subscriber("lwheel", Int16, self.lwheelCallback)
-        rospy.Subscriber("rwheel", Int16, self.rwheelCallback)
+        rospy.Subscriber("beam/lwheel", Int16, self.lwheelCallback)
+        rospy.Subscriber("beam/rwheel", Int16, self.rwheelCallback)
+        rospy.Subscriber("beam/yaw", Int32, self.calculate_yaw)
         self.odomPub = rospy.Publisher("odom", Odometry)
         self.odomBroadcaster = TransformBroadcaster()
         
@@ -143,30 +147,30 @@ class DiffTf:
             # distance traveled is the average of the two wheels 
             d = ( d_left + d_right ) / 2
             # this approximation works (in radians) for small angles
-            th = ( d_right - d_left ) / self.base_width
+            th = ( d_right - d_left ) / self.base_width 
             # calculate velocities
             self.dx = d / elapsed
-            self.dr = th / elapsed
+            self.dr = self.yaw_diff / elapsed
            
              
             if (d != 0):
                 # calculate distance traveled in x and y
-                x = cos( th ) * d
-                y = -sin( th ) * d
+                x = cos( self.yaw_diff ) * d
+                y = -sin( self.yaw_diff ) * d
                 # calculate the final position of the robot
-                self.x = self.x + ( cos( self.th ) * x - sin( self.th ) * y )
-                self.y = self.y + ( sin( self.th ) * x + cos( self.th ) * y )
+                self.x = self.x + ( cos( self.yaw ) * x - sin( self.yaw ) * y )
+                self.y = self.y + ( sin( self.yaw ) * x + cos( self.yaw ) * y )
             if( th != 0):
                 self.th = self.th + th
             
-	    val_th = tf.transformations.quaternion_from_euler(0,0,self.th)    
+	    val_th = tf.transformations.quaternion_from_euler(0,0,self.yaw)    
             # publish the odom information
            # quaternion = Quaternion()
            # quaternion.x = 0.0
            # quaternion.y = 0.0
            # quaternion.z = sin( self.th / 2 )
            # quaternion.w = cos( self.th / 2 )
-	    quaternion = Quaternion(val_th[0], val_th[1], val_th[2], val_th[3])
+            quaternion = Quaternion(val_th[0], val_th[1], val_th[2], val_th[3]) 
             self.odomBroadcaster.sendTransform(
                 (self.x, self.y, 0),
                 (quaternion.x, quaternion.y, quaternion.z, quaternion.w),
@@ -188,8 +192,19 @@ class DiffTf:
             odom.twist.twist.angular.z = self.dr
             self.odomPub.publish(odom)
             
-            
 
+    #############################################################################
+    def calculate_yaw(self, msg):
+    #############################################################################
+        if self.first:
+            self.init_yaw = msg.data
+            self.init_th = self.th
+            self.first = False
+
+        self.yaw = radians((((msg.data - self.init_yaw + self.init_th)*3/2))) 
+        self.yaw_diff = self.yaw - self.last_yaw
+        self.last_yaw = self.yaw 
+       
 
     #############################################################################
     def lwheelCallback(self, msg):
@@ -223,6 +238,3 @@ if __name__ == '__main__':
     """ main """
     diffTf = DiffTf()
     diffTf.spin()
-    
-    
-   
