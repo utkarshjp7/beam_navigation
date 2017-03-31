@@ -2,9 +2,9 @@
 
 <launch>
 
-	<!-- Converte point cloud to laserscan and launch camera topics--> 
-	<include file="$(find pointcloud_to_laserscan)/launch/sample_node.launch"/>   
-  
+	<!--Launch camera topics -->
+	<include file="$(find beam_2dnav)/launch/camera.launch"/>
+
 	<!-- Restart rosbeam bridge -->
 	<node pkg="beam_2dnav" type="init_connection" name="init_connection" output="screen"/>
 		<param name="beam_ip" value="192.168.68.1"/>
