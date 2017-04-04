@@ -27,6 +27,7 @@ class trialInfoLoader:
 		self._lastCmdVelMsgTime = None;
 
 	def _velocityCb(self, msg):
+		self._lastCmdVelMsgTime = datetime.now();
 		if not self._trial_initialized:
 			self._trial_initialized = True;
 			self._start_time = datetime.now();			
@@ -38,7 +39,6 @@ class trialInfoLoader:
 			self._tid = self._execute(select_latest_tid, True);
 			self._tid = self._tid[0][0];
 		else:
-			self._lastCmdVelMsgTime = datetime.now();
 			t = (datetime.now() - self._start_time).total_seconds();
 			avg_speed = self._distance_travelled / t ;
 			update_avg_speed = "UPDATE trial_logs SET average_speed={0} WHERE id={1}".format(avg_speed, self._tid);
