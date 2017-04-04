@@ -7,10 +7,12 @@ import email
 import datetime
 import os,rospy
 import smtplib
+from std_msgs.msg import String
 
 class reader_class():
 	def __init__(self):
 		rospy.init_node("Beam_Email_Reader")
+		self.speakpub = rospy.Publisher("/speak", String, queue_size=1)
 		self.first_time = True
 		self.goal = "goal"
 		self.last_goal = ""
@@ -42,6 +44,7 @@ class reader_class():
 			if x>0 and y >0:
 				os.system("ssh st@192.168.68.1 '"+ "echo " +"I am going to the "+str(self.goal)+"|festival --tts"+"'")
 				send = "rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped -1 -- '{header: {stamp: now, frame_id: "+"map"+"}, pose: {position: {x: "+ str(x) +" , y: "+ str(y) +"}, orientation: {w: 1.0}}}'"
+				self.speakpub.publish(str(self.goal))
 				os.system(send)
 				self.first_time = False
 				self.old_num = num_list

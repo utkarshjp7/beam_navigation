@@ -9,7 +9,7 @@
 	<node pkg="beam_2dnav" type="init_connection" name="init_connection" output="screen"/>
 		<param name="beam_ip" value="192.168.68.1"/>
 		<param name="user" value="st"/>
-		<param name="encoder_speed_threshold" value="200"/>
+		<param name="encoder_speed_threshold" value="220"/>
 
 	<!-- Tf from base_link -> camera_link-->
 	<node pkg="beam_tf" type="tf_broadcaster" name="beam_tf_publisher" output="screen"> </node>

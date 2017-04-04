@@ -54,7 +54,7 @@ diff_controller.py - controller for a differential drive
 import rospy
 import roslib
 #roslib.load_manifest('differential_drive')
-from math import sin, cos, pi , radians
+from math import sin, cos, pi, radians, sqrt
 
 from geometry_msgs.msg import Quaternion
 from geometry_msgs.msg import Twist
@@ -113,7 +113,8 @@ class DiffTf:
         rospy.Subscriber("beam/lwheel", Int16, self.lwheelCallback)
         rospy.Subscriber("beam/rwheel", Int16, self.rwheelCallback)
         rospy.Subscriber("beam/yaw", Int32, self.calculate_yaw)
-        self.odomPub = rospy.Publisher("odom", Odometry)
+        self.odomPub = rospy.Publisher("odom", Odometry, queue_size=self.rate)
+        self.distPub = rospy.Publisher("trans_dist", Float32, queue_size=self.rate)
         self.odomBroadcaster = TransformBroadcaster()
         
     #############################################################################
@@ -152,11 +153,16 @@ class DiffTf:
             self.dx = d / elapsed
             self.dr = self.yaw_diff / elapsed
            
-             
+            trans_dist = 0.0
+   
             if (d != 0):
                 # calculate distance traveled in x and y
                 x = cos( self.yaw_diff ) * d
                 y = -sin( self.yaw_diff ) * d
+
+		# calculate translational distance
+		trans_dist = sqrt(x * x + y * y)
+
                 # calculate the final position of the robot
                 self.x = self.x + ( cos( self.yaw ) * x - sin( self.yaw ) * y )
                 self.y = self.y + ( sin( self.yaw ) * x + cos( self.yaw ) * y )
@@ -191,8 +197,7 @@ class DiffTf:
             odom.twist.twist.linear.y = 0
             odom.twist.twist.angular.z = self.dr
             self.odomPub.publish(odom)
-            
-
+            self.distPub.publish(trans_dist)     
     #############################################################################
     def calculate_yaw(self, msg):
     #############################################################################
