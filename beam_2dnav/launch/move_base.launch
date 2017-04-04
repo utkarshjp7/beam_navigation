@@ -4,7 +4,7 @@
 	<master auto="start"/>
 
 	<!-- Run the map server -->
-	<node name="map_server" pkg="map_server" type="map_server" args="$(find beam_2dnav)/map/map.pgm 0.05"/>
+	<node name="map_server" pkg="map_server" type="map_server" args="$(find beam_2dnav)/map/thirdfloor_extended.pgm 0.05"/>
 
 	<!--- Run AMCL -->
 	<include file="$(find amcl)/examples/amcl_diff.launch" />
