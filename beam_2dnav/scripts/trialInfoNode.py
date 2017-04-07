@@ -68,7 +68,11 @@ class trialInfoLoader:
 	def _execute(self, sql, fetch):
 		result = None;
 		cursor = self.conn.cursor();
-		cursor.execute(sql);
+		try:
+			cursor.execute(sql);
+		except psycopg2.Error as e:
+			print "Database error occured while executing '",sql,"'";
+			print e.diag.message_primary;		
 		if fetch:
 			result = cursor.fetchall();
 		self.conn.commit();

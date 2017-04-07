@@ -43,7 +43,7 @@ class reader_class():
 				y = 9.5178546955
 			if x>0 and y >0:
 				os.system("ssh st@192.168.68.1 '"+ "echo " +"I am going to the "+str(self.goal)+"|festival --tts"+"'")
-				send = "rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped -1 -- '{header: {stamp: now, frame_id: "+"map"+"}, pose: {position: {x: "+ str(x) +" , y: "+ str(y) +"}, orientation: {w: 1.0}}}'"
+				send = "rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped -1 -- '{header: {stamp: now, frame_id: map}, pose: {position: {x: "+ str(x) +" , y: "+ str(y) +"}, orientation: {w: 1.0}}}'"
 				self.speakpub.publish(str(self.goal))
 				os.system(send)
 				self.first_time = False
