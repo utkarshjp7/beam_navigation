@@ -30,20 +30,32 @@ class reader_class():
 			len(data)
 			msg = email.message_from_string(data[0][1])
 			if msg['Subject'] == "Gym":
-				x = 76.600440979
-				y = 11.0695152283
+				x = 23.026607
+				y = 45.96117
 				self.goal = msg['Subject']
 			if msg['Subject'] == "Entrance":
-				x = 3.3780708313
-				y = 16.2051582336
+				x = 35.823936
+				y = 120.297027
 				self.goal = msg['Subject']
-			if msg['Subject'] == "Elevators":
+			if msg['Subject'] == "Lab":
 				self.goal = msg['Subject']
-				x = 51.1922950745
-				y = 9.5178546955
+				x = 29.851419
+				y = 54.0409
+			if msg['Subject'] == "SI":
+				self.goal = msg['Subject']
+				x = 71.390579221
+				y = 131.619
+			if msg['Subject'] == "MC":
+				self.goal = msg['Subject']
+				x = 127.1449
+				y = 198.64999
+			if msg['Subject'] == "SC":
+				self.goal = msg['Subject']
+				x = 144.9398
+				y = 266.163543
 			if x>0 and y >0:
 				os.system("ssh st@192.168.68.1 '"+ "echo " +"I am going to the "+str(self.goal)+"|festival --tts"+"'")
-				send = "rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped -1 -- '{header: {stamp: now, frame_id: map}, pose: {position: {x: "+ str(x) +" , y: "+ str(y) +"}, orientation: {w: 1.0}}}'"
+				send = "rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped -1 -- '{header: {stamp: now, frame_id: "+"'map'"+"}, pose: {position: {x: "+ str(x) +" , y: "+ str(y) +"}, orientation: {w: 1.0}}}'"
 				self.speakpub.publish(str(self.goal))
 				os.system(send)
 				self.first_time = False
