@@ -159,6 +159,8 @@ install(PROGRAMS
    scripts/speak.py
    scripts/trialInfoNode.py
    scripts/beam_docking.py
+   scripts/people_detection.py
+   scripts/twitter_checker_node.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+
+<launch>
+
+	<include file="$(find cob_people_detection)/ros/launch/people_detection.launch"/>
+
+	<node pkg="kinect_aux" type="kinect_aux_node" name="kinect_aux_node"/>
+  <node pkg="beam_2dnav" type="people_detection.py" name="People_Detection" output="screen"/>
+  <node pkg="beam_2dnav" type="twitter_checker_node.py" name="Twitter_Checker" output="screen"/>
+
+</launch>
+
+
