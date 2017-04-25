@@ -158,9 +158,12 @@ install(PROGRAMS
    scripts/sendEmailSrv.py
    scripts/speak.py
    scripts/trialInfoNode.py
+<<<<<<< HEAD
    scripts/beam_docking.py
    scripts/people_detection.py
    scripts/twitter_checker_node.py
+=======
+>>>>>>> 285d6768db49fe3900c8295621111a9e3ca9677a
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 

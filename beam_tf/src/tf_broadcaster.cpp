@@ -17,7 +17,11 @@ int main(int argc, char** argv){
         ros::Time::now(),"/base_link", "/asus_link"));
     broadcaster.sendTransform(
       tf::StampedTransform(
+<<<<<<< HEAD
         tf::Transform(tf::Quaternion(0, 0, 0, 1), tf::Vector3(-0.1478, 0.0, 1.3208)),
+=======
+        tf::Transform(tf::Quaternion(0, 0, ori, 1), tf::Vector3(-0.1478, 0.0, 0.1450)),
+>>>>>>> 285d6768db49fe3900c8295621111a9e3ca9677a
         ros::Time::now(),"/base_link", "/kinect_link"));
     r.sleep();
   }
