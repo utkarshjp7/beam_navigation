@@ -10,6 +10,5 @@ raytrace_range: 4.5
 footprint: [[0.1516, 0.2187], [0.1516, -0.2187], [-0.3302, -0.2187], [-0.3302, 0.2187]]
 
 obstacles: 
-  observation_sources: kinect_sensor asus_sensor 
+  observation_sources: asus_sensor
   asus_sensor: {sensor_frame: /asus_link, data_type: LaserScan, topic: /scan, marking: true, clearing: true}
-  kinect_sensor: {sensor_frame: /kinect_link, data_type: LaserScan, topic: /scan, marking: true, clearing: true}

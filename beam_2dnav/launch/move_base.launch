@@ -10,10 +10,10 @@
 	<include file="$(find amcl)/examples/amcl_diff.launch" />
 
 	<!-- Run email demon -->
-	<node pkg="beam_2dnav" type="sendEmailSrv.py" name="Beam_Email_Reader"> </node>
+	<node pkg="beam_interactive" type="sendEmailSrv.py" name="Beam_Email_Reader"> </node>
 
 	<!-- Speak move_base/status -->
-	<node pkg="beam_2dnav" type="speak.py" name="speak"> </node>
+	<node pkg="beam_interactive" type="speak.py" name="speak"> </node>
 
 	<!-- Run database loader-->
 	<node pkg="beam_2dnav" type="trialInfoNode.py" name="trial_info_loader" output="screen"> </node>
