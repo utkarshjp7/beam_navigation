@@ -20,18 +20,12 @@ class tweet():
 		self.alpha = 0
 		self.detection_treshold = 0.8
 		self.first_time = True
-		self.i = 0;
 		self.face_list = list()
-		self.posey = 0
 		self.received = False
-		self.z = 0
-		self.n = None
-		self.angley = 0
 		self.marker_pos = (0,0,0)
 		self.tf_listener = TransformListener()
 		self.br = tf.TransformBroadcaster()
 		self.alpha_list = list()
-		self.puby = rospy.Publisher('/tilt_angle',Float64,queue_size=1)
 		rospy.Subscriber("/Tweet_Checker" , UInt32 , self.tweet_checker)
 
 	def run(self):
@@ -64,24 +58,15 @@ class tweet():
 					self.face_list.append(self.face)
 					self.alpha_list.append(self.alpha)
 					self.first_time = False
-					continue				
-	#			print len(self.face_list)
+					continue
+
 				for i in xrange(0,len(self.face_list)):
 					if self.distance_between(self.face,self.face_list[i]) < self.detection_treshold:
 						appearance = True
+				
 				if not appearance:
 					self.face_list.append(list(self.face))
 					self.alpha_list.append(self.alpha)
-				self.posey += (data.detections[x].mask.roi.y)/(x+1)   
-
-			if self.posey < 200:
-				if(self.angley<29):
-					self.angley += 1
-			if self.posey > 290:
-				if(self.angley>-29):
-					self.angley -= 1	
-			self.puby.publish(self.angley)
-
 			
 
 	def distance_between(self,pos1,pos2):

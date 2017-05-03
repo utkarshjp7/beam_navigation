@@ -3,8 +3,7 @@
 <launch>
 
 	<include file="$(find cob_people_detection)/ros/launch/people_detection.launch"/>
-
-	<node pkg="kinect_aux" type="kinect_aux_node" name="kinect_aux_node"/>
+	
   <node pkg="beam_interactive" type="people_detection.py" name="People_Detection"/>
   <node pkg="beam_interactive" type="twitter_checker_node.py" name="Twitter_Checker" output="screen"/>
 
