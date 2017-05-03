@@ -23,7 +23,6 @@ initorientation = []
 def processNav(nav):
 	rospy.loginfo(nav.status.text)
 	os.system("ssh st@192.168.68.1 'echo "+ nav.status.text+" |festival --tts"+"'")
-	#os.system("echo '" + nav.status.text + "' |festival --tts")
 
 
 
@@ -73,7 +72,6 @@ def processInit(init):
 	print "Initial Orientation = ",initorientation
 	print ""
 	os.system("ssh st@192.168.68.1 '"+ "echo " +"Initial Position and Orientation values recorded"+" |festival --tts"+"'")
-	#os.system("echo 'Initial Position and Orientation values recorded' |festival --tts")	
 	print "[1] --> To send me to the initial position you set"
 	print "[0] --> To assign a new initial position"
 	print "\n"
@@ -85,7 +83,6 @@ def processInit(init):
 			print goingback
 			print "\n"
 			os.system("ssh st@192.168.68.1 '"+ "echo " +goingback+"|festival --tts"+"'")
-			#os.system("echo '" + goingback + "' |festival --tts")
 			os.system("rostopic pub /move_base_simple/goal geometry_msgs/PoseStamped -1 -- '{ header: {stamp: now, frame_id: 'map'}, pose: { position: {x: " + str(init.pose.pose.position.x) + ", y: "+ str(init.pose.pose.position.y)+", z: "+str(init.pose.pose.position.z) + "}, orientation: {z: "+str(init.pose.pose.orientation.z)+", w: "+ str(init.pose.pose.orientation.w)+"}}}'")
 
 		if inval == 0:
@@ -96,7 +93,6 @@ def processInit(init):
 
 
 def listener():
-
 	rospy.Subscriber("move_base/goal", MoveBaseActionGoal, processGoal)
 	rospy.Subscriber("move_base/result", MoveBaseActionResult, processNav)
 	rospy.Subscriber("initialpose", PoseWithCovarianceStamped, processInit)
