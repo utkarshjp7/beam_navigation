@@ -5,7 +5,8 @@ import os,roslib,rospy
 from twython import Twython
 from math import * 
 import tf
-from std_msgs.msg import Float64, UInt32
+from std_msgs.msg import *
+import beam_interactive.msg
 from cob_perception_msgs.msg import DetectionArray
 
 class tweet():
@@ -26,6 +27,7 @@ class tweet():
 		self.tf_listener = TransformListener()
 		self.br = tf.TransformBroadcaster()
 		self.alpha_list = list()
+		self.transormation = rospy.Publisher("/transform", beam_interactive.msg.people_position, queue_size=1)
 		rospy.Subscriber("/Tweet_Checker" , UInt32 , self.tweet_checker)
 
 	def run(self):
@@ -43,6 +45,11 @@ class tweet():
 				except Exception as ex:
 					continue
 				print self.people_position
+				person_position = beam_interactive.msg.people_position()
+				person_position.x = self.people_position[0]
+				person_position.y = self.people_position[1]
+				self.transormation.publish(person_position)
+
 
 
 	def face_array(self,data):
@@ -77,7 +84,7 @@ class tweet():
 		if data.data == 1 and self.received:
 				twitter = Twython(self.APP_KEY, self.APP_SECRET, self.OAUTH_TOKEN, self.OAUTH_TOKEN_SECRET)
 				statusupdate = "People detected at: \n"
-				statusupdate += str(self.face)+"\n"
+				statusupdate += str(self.people_position)+"\n"
 				twitter.update_status(status=statusupdate)
 
 if __name__ == '__main__':

@@ -8,6 +8,7 @@ import datetime
 import os,rospy
 import smtplib
 from std_msgs.msg import String
+import people_position.msg
 
 class reader_class():
 	def __init__(self):
