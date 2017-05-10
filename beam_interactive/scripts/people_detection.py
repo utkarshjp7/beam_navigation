@@ -74,6 +74,10 @@ class tweet():
 				if not appearance:
 					self.face_list.append(list(self.face))
 					self.alpha_list.append(self.alpha)
+					twitter = Twython(self.APP_KEY, self.APP_SECRET, self.OAUTH_TOKEN, self.OAUTH_TOKEN_SECRET)
+					statusupdate = "People detected at: \n"
+					statusupdate += str(self.people_position)+"\n"
+					twitter.update_status(status=statusupdate)
 			
 
 	def distance_between(self,pos1,pos2):
