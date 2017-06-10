@@ -1,6 +1,0 @@
--Install roslibjs from "https://github.com/RobotWebTools/roslibjs"
--Check beam_interactive.html if it is pointing to the correct directory for roslibjs.
-
--roscore
-
--roslaunch rosbridge_server rosbridge_websocket.launch
